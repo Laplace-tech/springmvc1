@@ -117,6 +117,7 @@ public class RequestBodyJsonController {
 	 * 2. 스프링의 MappingJackson2HttpMessageConverter가 JSON 데이터를 HelloData 객체로 변환
 	 * 3. HttpEntity<HelloData>를 통해 변환된 HttpEntity 객체를 컨트롤러로 전달. 
 	 */
+	@ResponseBody
 	@PostMapping("/request-body-json-v4")
 	public HelloData requestBodyJsonV4(HttpEntity<HelloData> httpEntity) {
 		HelloData data = httpEntity.getBody();
@@ -125,7 +126,7 @@ public class RequestBodyJsonController {
 	}
 	
 	/*
-	 * ERROR!
+	 * ERROR! : @ModelAttribute로 인식
 	 */
 	@ResponseBody
 	@PostMapping("/request-body-json-v5")

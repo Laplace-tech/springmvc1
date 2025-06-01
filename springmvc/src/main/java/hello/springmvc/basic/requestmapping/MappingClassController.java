@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 /*
  * @RequestMapping("/mapping/users") 
  * 	ㄴ> 클래스 레벨에 매핑 정보를 두면 메서드 레벨에서 해당 정보를 조합해서 사용
+ * 	    모든 요청의 공통 URL 경로를 지정함
  */
 public class MappingClassController {
 	
@@ -36,15 +37,15 @@ public class MappingClassController {
 	}
 	
 	/*
-	 * POST : /mapping/users
+	 * POST : /mapping/users/{username}
 	 */
-	@PostMapping("{username}")
+	@PostMapping("/{username}")
 	public String addUser(@PathVariable("username") String username) {
 		return "addUser() -> username : " + username;
 	}
 	
 	/*
-	 * GET : /mapping/users/{userId}
+	 * GET : /mapping/users/{username}
 	 */
 	@GetMapping("/{username}")
 	public String findUser(@PathVariable("username") String username) {

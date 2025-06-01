@@ -15,13 +15,13 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 
 /*
- * 1. @RequestParam 
+ * 1. @RequestParam : 요청 파라미터 하나하나를 직접 변수에 매핑
  * - 쿼리 파라미터나 Form Data 에서 데이터를 추출하여 메서드 파라미터로 매핑.
  *   적용 컨버터: **컨버터 사용 안 함** (스프링 내부적으로 기본적으로 처리)
- * 		요청 : /example?name=John 또는 name=John (x-www-form-urlencoded)
+ * 		요청 : /example?name=John (쿼리 파라미터) 또는 name=John (x-www-form-urlencoded)
  * 		결과: 메서드 파라미터에 바로 매핑.
  * 
- * 2. @ModelAttribute 
+ * 2. @ModelAttribute : 여러 파라미터를 하나의 객체로 묶어서 받을 수 있음
  * - 요청에서 파라미터를 받아 객체를 생성하고, 객체의 필드에 값을 설정.
  *   적용 컨버터: **컨버터 사용 안 함** (스프링이 내부적으로 파라미터 바인딩 처리)
  * 		요청: /example?username=John&age=30 (GET) 또는 username=John&age=30 (POST, x-www-form-urlencoded)
@@ -31,8 +31,8 @@ import lombok.extern.slf4j.Slf4j;
  * -----------------------------------------------------------------------------
  * 스프링 MVC는 다음의 경우에 HTTP 메시지 컨버터를 적용한다.
  *
- * HTTP 요청: @RequestBody , HttpEntity(RequestEntity)
- * HTTP 응답: @ResponseBody , HttpEntity(ResponseEntity)
+ * (body를 읽어들일 때) HTTP 요청: @RequestBody , HttpEntity(RequestEntity)
+ * (body에 작성할 때) HTTP 응답: @ResponseBody , HttpEntity(ResponseEntity)
  * 
  * 1. @RequestBody 
  * 
@@ -41,7 +41,7 @@ import lombok.extern.slf4j.Slf4j;
  * 		요청: {"key": "value"}
  * 		결과: {"key": "value"} (그대로 반환)
  * 
-  * - 참조형 : 요청 본문(JSON)을 Java 객체로 매핑.
+  * - 참조형 : 요청 본문(JSON)을 Java 객체로 매핑. (기본 생성자로 객체 생성 -> @Setter로 필드 주입)
  *   적용 컨버터: MappingJackson2HttpMessageConverter (application/json)
  * 		요청: POST : {"username": "Martha Meitner", "age": 30}
  * 		결과: JSON → 객체로 매핑 → JSON 응답 
@@ -121,7 +121,9 @@ public class RequestParamController {
 	 */
 	@ResponseBody
 	@RequestMapping("/request-param-v2")
-	public String requestParamV2(@RequestParam("username") String memberName, @RequestParam("age") Long memberAge) {
+	public String requestParamV2(
+			@RequestParam("username") String memberName,
+			@RequestParam("age") Long memberAge) {
 		log.info("username = {}, age = {}", memberName, memberAge);
 		return String.format("username : %s, memberAge : %d", memberName, memberAge);
 	}
@@ -146,7 +148,7 @@ public class RequestParamController {
 	@ResponseBody
 	@RequestMapping("/request-param-required")
 	public String requestParamRequired(
-			@RequestParam(name = "username", required = true) String username,
+			@RequestParam(name = "username") String username,
 			@RequestParam(name = "age", required = false) Integer age) {
 		log.info("username = {}, age = {}", username, age);
 		return String.format("username : %s, age : %d", username, age);

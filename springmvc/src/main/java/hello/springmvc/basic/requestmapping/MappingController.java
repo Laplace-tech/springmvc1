@@ -39,7 +39,6 @@ public class MappingController {
 	 * 그렇기 때문에 해당 엔드포인트에 지정한 메서드가 아닌 다른 요청을 보내면 
 	 * 405 Method Not Allowed 상태코드가 반환된다. 
 	 * 	ㄴ> i.e. "요청한 메서드는 허용되지 않음" : Request method 'POST' is not supported
-	 *
 	 */
 	@RequestMapping(value = "/mapping-get-v1", method = RequestMethod.GET)
 	public String mappingGetV1() {
@@ -47,7 +46,6 @@ public class MappingController {
 		return "mappingGetV1";
 	}
 	
-//	@GetMapping("/mapping-get-v1")
 	/*
 	 * 축약 애너테이션 
 	 *  ㄴ> 코드 내부에서 @RequestMapping과 method 를 지정해서 사용
@@ -81,7 +79,8 @@ public class MappingController {
 	 * PathVariable 사용 다중
 	 */
 	@GetMapping("/mapping/users/{username}/orders/{orderId}")
-	public String mappingPath(@PathVariable("username") String username, @PathVariable("orderId") Long orderId) {
+	public String mappingPath(@PathVariable("username") String username, 
+							  @PathVariable("orderId") Long orderId) {
 		log.info("mappingPath : username = {}, orderId = {}", username, orderId);
 		return String.format("mappingPath : username = %s, orderId = %d", username, orderId);
 	}
