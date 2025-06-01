@@ -10,16 +10,16 @@ import lombok.Setter;
 @NoArgsConstructor
 public class Item {
 
-	private Long Id;
+	private Long id;
 	private String itemName;
 	private Integer price;
 	private Integer quantity;
-
+	
 	@Builder
 	public Item(String itemName, Integer price, Integer quantity) {
+		System.out.println("item");
 		this.itemName = itemName;
 		this.price = price;
 		this.quantity = quantity;
 	}
-	
 }
